@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edt_namehomework"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/homework_name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/details" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_homeworkdata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:text="Wed Nov 14 11:56 EST 2018" />
+    <CheckBox
+        android:id="@+id/checkbox_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/homework_made"/>
+
+</LinearLayout>
