@@ -7,7 +7,7 @@ import java.util.*
 
 //Define una clase como entidad
 @Entity
-data class HomeWorkNotes(
+data class NotesModel(
     @PrimaryKey val id: UUID = UUID.randomUUID(), // Especifica la clave primaria
     var name: String = "",
     var date: Date = Date(),

@@ -13,16 +13,19 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.homeworknotes.R
-import com.example.homeworknotes.model.HomeWorkNotes
+import com.example.homeworknotes.model.NotesModel
 import com.example.homeworknotes.viewmodel.HomeWorkNotesDetailsViewModel
 import java.util.*
 
 private const val ARG_HOMEWORK_ID = "homework_id"
 private const val TAG = "HomeWorkNotesFragment"
+private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0
 
-class HomeWorkNotesFragment : Fragment() {
 
-    private lateinit var note: HomeWorkNotes
+class NotesFragment : Fragment(), DatePickerFragment.Callbacks {
+
+    private lateinit var note: NotesModel
     private lateinit var edtName: EditText
     private lateinit var btnDate: Button
     private lateinit var checkBoxComplete: CheckBox
@@ -33,10 +36,10 @@ class HomeWorkNotesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        note = HomeWorkNotes()
+        note = NotesModel()
         val noteId: UUID = arguments?.getSerializable(ARG_HOMEWORK_ID) as UUID
         notesDetailsViewModel.loadNote(noteId)
-        Log.d(TAG, "args bundle crime ID: $noteId")
+        Log.d(TAG, "args bundle note ID: $noteId")
     }
 
     override fun onCreateView(
@@ -48,6 +51,7 @@ class HomeWorkNotesFragment : Fragment() {
         edtName = view.findViewById(R.id.edt_namehomework)
         btnDate = view.findViewById(R.id.btn_homeworkdata)
         checkBoxComplete = view.findViewById(R.id.checkbox_complete)
+        configUI()
         return view
     }
 
@@ -74,6 +78,15 @@ class HomeWorkNotesFragment : Fragment() {
             })
     }
 
+    private fun configUI() {
+        btnDate.setOnClickListener {
+            DatePickerFragment.newInstance(note.date).apply {
+                setTargetFragment(this@NotesFragment, REQUEST_DATE)
+                show(this@NotesFragment.requireFragmentManager(), DIALOG_DATE)
+            }
+        }
+    }
+
     private fun initUI() {
         edtName.setText(note.name)
         btnDate.text = note.date.toString()
@@ -81,6 +94,7 @@ class HomeWorkNotesFragment : Fragment() {
             isChecked = note.isComplete
             jumpDrawablesToCurrentState()
         }
+
     }
 
     private fun watcherEditText() {
@@ -111,13 +125,20 @@ class HomeWorkNotesFragment : Fragment() {
         edtName.addTextChangedListener(nameWatcher)
     }
 
-    fun newInstance(homeWorkId: UUID): HomeWorkNotesFragment {
+    fun newInstance(homeWorkId: UUID): NotesFragment {
         val args = Bundle().apply {
             putSerializable(ARG_HOMEWORK_ID, homeWorkId)
         }
-        return HomeWorkNotesFragment().apply {
+        return NotesFragment().apply {
             arguments = args
         }
     }
+
+    override fun onDateSelected(date: Date) {
+        note.date = date
+        initUI()
+    }
+
+
 }
 

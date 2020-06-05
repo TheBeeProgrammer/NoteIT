@@ -6,7 +6,7 @@ import java.util.*
 /**
     Room is able to store primitive types, so Room use a TypeConverter to storage this Data
  */
-class HomeWorkNotesConverter {
+class NotesConverter {
 
     @TypeConverter
     fun fromDate(date: Date?): Long? {

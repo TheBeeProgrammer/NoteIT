@@ -1,14 +1,14 @@
 package com.example.homeworknotes
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.homeworknotes.model.HomeWorkNotes
-import com.example.homeworknotes.view.fragments.HomeWorkNotesFragment
-import com.example.homeworknotes.view.fragments.HomeWorkNotesListFragment
+import androidx.appcompat.app.AppCompatActivity
+import com.example.homeworknotes.view.fragments.AddNoteFragment
+import com.example.homeworknotes.view.fragments.NotesFragment
+import com.example.homeworknotes.view.fragments.NotesListFragment
 import java.util.*
 
-class MainActivity : AppCompatActivity(), HomeWorkNotesListFragment.CallBacks {
+class MainActivity : AppCompatActivity(), NotesListFragment.CallBacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), HomeWorkNotesListFragment.CallBacks {
 
     private fun addFragment(currentFragment: Any?) {
         if (currentFragment == null) {
-            val fragment = HomeWorkNotesListFragment.newInstance()
+            val fragment = NotesListFragment.newInstance()
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
@@ -29,7 +29,13 @@ class MainActivity : AppCompatActivity(), HomeWorkNotesListFragment.CallBacks {
 
     override fun onHomeWorkSelected(id: UUID) {
         Log.d("MAIN.CallBAck", " $id")
-        val fragment = HomeWorkNotesFragment().newInstance(id)
+        val fragment = NotesFragment().newInstance(id)
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
+            .addToBackStack(null).commit()
+    }
+
+    override fun navigateToAddFragment() {
+        val fragment = AddNoteFragment.newInstance()
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
             .addToBackStack(null).commit()
     }

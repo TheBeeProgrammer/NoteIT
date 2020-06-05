@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homeworknotes.R
-import com.example.homeworknotes.model.HomeWorkNotes
+import com.example.homeworknotes.model.NotesModel
 import java.util.*
 
-class NotesAdapter(private var lisHomeWorkNotes: List<HomeWorkNotes>) :
+class NotesAdapter(private var lisNoteModels: List<NotesModel>) :
     RecyclerView.Adapter<NotesAdapter.NotesHolder>() {
 
     var listener: Tap? = null
@@ -26,25 +26,25 @@ class NotesAdapter(private var lisHomeWorkNotes: List<HomeWorkNotes>) :
     }
 
     override fun onBindViewHolder(holder: NotesHolder, position: Int) {
-        val notes = lisHomeWorkNotes[position]
+        val notes = lisNoteModels[position]
         holder.bind(notes)
     }
 
     override fun getItemViewType(position: Int) = position % 2
 
-    override fun getItemCount() = lisHomeWorkNotes.size
+    override fun getItemCount() = lisNoteModels.size
 
 
     inner class NotesHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        private lateinit var homeWorkNotes: HomeWorkNotes
+        private lateinit var notesModel: NotesModel
         private var nameTextView: TextView = view.findViewById(R.id.tv_name)
         private var dateTextView: TextView = view.findViewById(R.id.tv_notedate)
 
 
-        fun bind(homeWorkNotes: HomeWorkNotes) {
-            this.homeWorkNotes = homeWorkNotes
-            nameTextView.text = homeWorkNotes.name
-            dateTextView.text = homeWorkNotes.date.toString()
+        fun bind(notesModel: NotesModel) {
+            this.notesModel = notesModel
+            nameTextView.text = notesModel.name
+            dateTextView.text = notesModel.date.toString()
         }
 
         init {
@@ -52,7 +52,7 @@ class NotesAdapter(private var lisHomeWorkNotes: List<HomeWorkNotes>) :
         }
 
         override fun onClick(v: View?) {
-            listener?.onItemClick(homeWorkNotes.id)
+            listener?.onItemClick(notesModel.id)
         }
 
     }

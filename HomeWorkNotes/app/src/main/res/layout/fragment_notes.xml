@@ -51,13 +51,15 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_notes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginStart="300dp"
-            android:layout_marginLeft="300dp"
-            android:background="@drawable/ic_iconfinder_plus_1814113"
-            android:outlineSpotShadowColor="@color/cardview_shadow_start_color" />
+            android:backgroundTint="#800080"
+            android:tint="#ffffff"
+            android:src="@drawable/ic_add_circle"
+
+             />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

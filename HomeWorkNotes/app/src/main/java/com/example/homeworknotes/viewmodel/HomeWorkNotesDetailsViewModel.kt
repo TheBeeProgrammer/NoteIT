@@ -4,17 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.homeworknotes.model.HomeWorkNotes
-import com.example.homeworknotes.repository.HomeWorkNotesRepository
+import com.example.homeworknotes.model.NotesModel
+import com.example.homeworknotes.repository.NotesRepository
 import java.util.*
 
 class HomeWorkNotesDetailsViewModel : ViewModel() {
 
-    private val homeWorkNotesRepository = HomeWorkNotesRepository.get()
+    private val homeWorkNotesRepository = NotesRepository.get()
     private val noteIdLiveData = MutableLiveData<UUID>()
 
 
-    var noteLiveData: LiveData<HomeWorkNotes?> =
+    var noteLiveData: LiveData<NotesModel?> =
         Transformations.switchMap(noteIdLiveData) { noteId ->
             homeWorkNotesRepository.getNoteByID(noteId)
         }
@@ -23,11 +23,11 @@ class HomeWorkNotesDetailsViewModel : ViewModel() {
         noteIdLiveData.value = crimeId
     }
 
-    fun saveNote(note: HomeWorkNotes){
+    fun saveNote(note: NotesModel){
         homeWorkNotesRepository.addNote(note)
     }
 
-    fun updateNote(note: HomeWorkNotes){
+    fun updateNote(note: NotesModel){
         homeWorkNotesRepository.updateNote(note)
     }
 

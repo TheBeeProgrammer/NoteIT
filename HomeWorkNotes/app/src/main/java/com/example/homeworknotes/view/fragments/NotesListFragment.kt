@@ -3,26 +3,26 @@ package com.example.homeworknotes.view.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homeworknotes.R
-import com.example.homeworknotes.model.HomeWorkNotes
+import com.example.homeworknotes.model.NotesModel
 import com.example.homeworknotes.view.adapter.NotesAdapter
 import com.example.homeworknotes.viewmodel.HomeWorkNotesListViewModel
+import androidx.lifecycle.Observer
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
 
-class HomeWorkNotesListFragment : Fragment(), NotesAdapter . Tap {
+class NotesListFragment : Fragment(), NotesAdapter.Tap {
 
     private lateinit var rvNotes: RecyclerView
     private var notesAdapter: NotesAdapter? = NotesAdapter(emptyList())
     private var callBacks: CallBacks? = null
+    private lateinit var fabAdd: FloatingActionButton
 
     private val homeWorkNotesListViewModel: HomeWorkNotesListViewModel by lazy {
         ViewModelProviders.of(this).get(HomeWorkNotesListViewModel::class.java)
@@ -38,11 +38,22 @@ class HomeWorkNotesListFragment : Fragment(), NotesAdapter . Tap {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.notes_list_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_notes, container, false)
         rvNotes = view.findViewById(R.id.rv_listNotes)
+        fabAdd = view.findViewById(R.id.fab_add_notes)
         rvNotes.layoutManager = LinearLayoutManager(context)
         rvNotes.adapter = notesAdapter
         return view
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.search_note, menu)
     }
 
     override fun onAttach(context: Context) {
@@ -57,36 +68,47 @@ class HomeWorkNotesListFragment : Fragment(), NotesAdapter . Tap {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-      /*  homeWorkNotesListViewModel.notesListLiveData.observe(viewLifecycleOwner,
-            Observer { notes ->
-                notes.let {
-                    Log.i("HOMEWORKNOTESLIST", " GOT IT ${notes.size}")
-                    updateUI(notes)
-                }
-            })*/
-        updateUI(homeWorkNotesListViewModel.homeWorkNotesList)
+        configUI()
+        renderUI()
     }
 
-    private fun updateUI(notes: List<HomeWorkNotes>) {
+    private fun updateUI(notes: List<NotesModel>) {
         notesAdapter =
             NotesAdapter(notes)
         rvNotes.adapter = notesAdapter
 
     }
 
+    private fun renderUI() {
+        homeWorkNotesListViewModel.notesLiveData.observe(
+            viewLifecycleOwner,
+            Observer { notes ->
+                notes.let {
+                    updateUI(notes)
+                }
+            })
+    }
+
+    private fun configUI() {
+        fabAdd.setOnClickListener {
+            callBacks?.navigateToAddFragment()
+        }
+    }
+
     companion object {
-        fun newInstance(): HomeWorkNotesListFragment {
-            return HomeWorkNotesListFragment()
+        fun newInstance(): NotesListFragment {
+            return NotesListFragment()
         }
     }
 
     interface CallBacks {
-        fun onHomeWorkSelected(id:UUID)
+        fun onHomeWorkSelected(id: UUID)
+        fun navigateToAddFragment()
     }
 
     override fun onItemClick(id: UUID) {
-            callBacks?.onHomeWorkSelected(id)
-            Log.d("MAIN.CallBAck", "From Fragment$id")
+        callBacks?.onHomeWorkSelected(id)
     }
+
 
 }
