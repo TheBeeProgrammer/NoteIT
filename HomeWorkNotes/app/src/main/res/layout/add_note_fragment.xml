@@ -77,7 +77,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:drawableEnd="@drawable/ic_note_add_black_24dp"
+                android:drawableEnd="@drawable/ic_add"
                 android:drawableTint="#ffff"
                 android:fontFamily="@font/tt_firs_neue_bold"
                 android:text="Agrega una tarea"
