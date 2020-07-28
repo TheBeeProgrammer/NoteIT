@@ -10,11 +10,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/tt_firs_neue_bold"
         android:text="@string/agrega_una_nota"
-        android:textColor="#a2f0ff"
+        android:textColor="#800080"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:fontFamily="@font/tt_firs_neue_bold"
                 android:gravity="center"
                 android:textColor="#ffffff"
@@ -58,17 +56,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:background="#ffb507"
-                android:textColorHint="#ffffff"
-                app:layout_constraintEnd_toStartOf="@+id/tv_select_date"
                 android:fontFamily="@font/tt_firs_neue_bold"
                 android:hint="Escribe un Titulo"
+                android:inputType="text"
                 android:maxLength="15"
                 android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                app:layout_constraintEnd_toStartOf="@+id/tv_select_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText"
                 tools:text="Compra Semanal" />
 
             <TextView
@@ -87,33 +86,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edt_title" />
 
-            <EditText
-                android:id="@+id/edt_task"
-                android:visibility="gone"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_tasks"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="#ffb507"
-                android:drawableStart="@drawable/ic_circle"
-                android:drawablePadding="8dp"
-                android:drawableTint="#ffff"
-                android:hint="Escribe una tarea"
-                android:textColor="#ffff"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_add_note"
-                tools:text="Comprar pan" />
-            <!--
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_notes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_add_note" />-->
+                app:layout_constraintTop_toBottomOf="@+id/tv_add_note" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
