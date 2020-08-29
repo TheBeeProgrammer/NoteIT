@@ -8,6 +8,8 @@ import com.example.homeworknotes.view.fragments.NotesFragment
 import com.example.homeworknotes.view.fragments.NotesListFragment
 import java.util.*
 
+const val TAG = "MAINACTIVITY"
+
 class MainActivity : AppCompatActivity(), NotesListFragment.CallBacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity(), NotesListFragment.CallBacks {
     }
 
     override fun onHomeWorkSelected(id: UUID) {
-        Log.d("MAIN.CallBAck", " $id")
+        Log.d(TAG, " $id")
         val fragment = NotesFragment().newInstance(id)
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
             .addToBackStack(null).commit()

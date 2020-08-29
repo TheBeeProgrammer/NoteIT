@@ -8,8 +8,9 @@ import java.util.*
 //Define una clase como entidad
 @Entity
 data class NotesModel(
-    @PrimaryKey val id: UUID = UUID.randomUUID(), // Especifica la clave primaria
+    @PrimaryKey val id: UUID = UUID.randomUUID(),
     var name: String = "",
     var date: Date = Date(),
-    var isComplete: Boolean = false
-):Serializable
+    var isComplete: Boolean = false,
+    var tasks: MutableList<String> = mutableListOf()
+) : Serializable

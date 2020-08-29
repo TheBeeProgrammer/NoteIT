@@ -1,4 +1,4 @@
-package com.example.homeworknotes.view.fragments
+package com.example.homeworknotes.view.dialogs
 
 import android.app.DatePickerDialog
 import android.app.Dialog

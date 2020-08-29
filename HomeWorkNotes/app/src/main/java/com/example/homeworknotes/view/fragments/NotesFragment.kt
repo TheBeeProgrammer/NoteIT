@@ -14,7 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.homeworknotes.R
 import com.example.homeworknotes.model.NotesModel
-import com.example.homeworknotes.viewmodel.HomeWorkNotesDetailsViewModel
+import com.example.homeworknotes.view.dialogs.DatePickerFragment
+import com.example.homeworknotes.viewmodel.NotesDetailsViewModel
 import java.util.*
 
 private const val ARG_HOMEWORK_ID = "homework_id"
@@ -30,8 +31,8 @@ class NotesFragment : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var btnDate: Button
     private lateinit var checkBoxComplete: CheckBox
 
-    private val notesDetailsViewModel: HomeWorkNotesDetailsViewModel by lazy {
-        ViewModelProviders.of(this).get(HomeWorkNotesDetailsViewModel::class.java)
+    private val notesDetailsViewModel: NotesDetailsViewModel by lazy {
+        ViewModelProviders.of(this).get(NotesDetailsViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,12 +89,12 @@ class NotesFragment : Fragment(), DatePickerFragment.Callbacks {
     }
 
     private fun initUI() {
-        edtName.setText(note.name)
+      /*edtName.setText("")
         btnDate.text = note.date.toString()
         checkBoxComplete.apply {
             isChecked = note.isComplete
             jumpDrawablesToCurrentState()
-        }
+        }*/
 
     }
 

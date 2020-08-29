@@ -1,10 +1,11 @@
-package com.example.homeworknotes.repository
+package com.example.homeworknotes.storage.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.homeworknotes.model.NotesModel
 import com.example.homeworknotes.storage.database.NotesDatabase
+import com.example.homeworknotes.storage.database.migration_2_3
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -22,7 +23,7 @@ class NotesRepository private constructor(context: Context) {
         context.applicationContext,
         NotesDatabase::class.java,
         DATABAE_NAME
-    ).build()
+    ).addMigrations(migration_2_3).build()
 
     private val executor = Executors.newSingleThreadExecutor()
 
@@ -39,7 +40,7 @@ class NotesRepository private constructor(context: Context) {
 
     fun updateNote(note: NotesModel) {
         executor.execute {
-           notesDao.updateNote(note)
+            notesDao.updateNote(note)
         }
     }
 
