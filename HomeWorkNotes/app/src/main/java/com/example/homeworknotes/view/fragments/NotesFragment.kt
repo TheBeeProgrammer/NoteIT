@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.homeworknotes.R
 import com.example.homeworknotes.model.NotesModel
 import com.example.homeworknotes.view.dialogs.DatePickerFragment
-import com.example.homeworknotes.viewmodel.NotesDetailsViewModel
+import com.example.homeworknotes.viewmodel.NotesViewModel
 import java.util.*
 
 private const val ARG_HOMEWORK_ID = "homework_id"
@@ -31,15 +31,15 @@ class NotesFragment : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var btnDate: Button
     private lateinit var checkBoxComplete: CheckBox
 
-    private val notesDetailsViewModel: NotesDetailsViewModel by lazy {
-        ViewModelProviders.of(this).get(NotesDetailsViewModel::class.java)
+    private val notesViewModel: NotesViewModel by lazy {
+        ViewModelProviders.of(this).get(NotesViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         note = NotesModel()
         val noteId: UUID = arguments?.getSerializable(ARG_HOMEWORK_ID) as UUID
-        notesDetailsViewModel.loadNote(noteId)
+        notesViewModel.loadNote(noteId)
         Log.d(TAG, "args bundle note ID: $noteId")
     }
 
@@ -61,15 +61,10 @@ class NotesFragment : Fragment(), DatePickerFragment.Callbacks {
         watcherEditText()
         initUI()
     }
-
-    override fun onStop() {
-        super.onStop()
-        notesDetailsViewModel.saveNote(note)
-    }
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        notesDetailsViewModel.noteLiveData.observe(
+        notesViewModel.noteLiveData.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer { notes ->
                 notes?.let {

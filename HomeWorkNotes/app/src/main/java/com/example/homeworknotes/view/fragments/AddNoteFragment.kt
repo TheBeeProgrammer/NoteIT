@@ -16,7 +16,7 @@ import com.example.homeworknotes.model.NotesModel
 import com.example.homeworknotes.utils.setCurrentDate
 import com.example.homeworknotes.view.adapter.TasksAdapter
 import com.example.homeworknotes.view.dialogs.AddTasksDialog
-import com.example.homeworknotes.viewmodel.NotesDetailsViewModel
+import com.example.homeworknotes.viewmodel.NotesViewModel
 
 private const val REQUEST_TASK = 0
 private const val TAG = "AddNoteFragment"
@@ -34,8 +34,8 @@ class AddNoteFragment : Fragment(), AddTasksDialog.ListenerTask {
     private var tasksAdapter: TasksAdapter = TasksAdapter(emptyList())
     private var notesModel: NotesModel = NotesModel()
 
-    private val notesDetailsViewModel: NotesDetailsViewModel by lazy {
-        ViewModelProviders.of(this).get(NotesDetailsViewModel::class.java)
+    private val notesViewModel: NotesViewModel by lazy {
+        ViewModelProviders.of(this).get(NotesViewModel::class.java)
     }
 
 
@@ -84,7 +84,7 @@ class AddNoteFragment : Fragment(), AddTasksDialog.ListenerTask {
         buttonSave.setOnClickListener {
             notesModel.tasks = taskList
             notesModel.name = edtTitle.text.toString()
-            notesDetailsViewModel.saveNote(notesModel)
+            notesViewModel.saveNote(notesModel)
         }
     }
 

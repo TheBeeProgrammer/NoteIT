@@ -8,7 +8,7 @@ import com.example.homeworknotes.model.NotesModel
 import com.example.homeworknotes.storage.repository.NotesRepository
 import java.util.*
 
-class NotesDetailsViewModel : ViewModel() {
+class NotesViewModel : ViewModel() {
 
     private val notesRepository = NotesRepository.get()
     private val noteIdLiveData = MutableLiveData<UUID>()
@@ -28,6 +28,10 @@ class NotesDetailsViewModel : ViewModel() {
 
     fun updateNote(note: NotesModel) {
         notesRepository.updateNote(note)
+    }
+
+     fun deleteNote(note: NotesModel) {
+        notesRepository.deleteNoteModel(note)
     }
 
 }

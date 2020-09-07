@@ -6,7 +6,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homeworknotes.R
@@ -18,11 +17,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
 
-class NotesListFragment : Fragment(), NotesAdapter.OnClick {
+class NotesListFragment : Fragment(), NotesAdapter.OnClickAdapter {
 
     private lateinit var rvNotes: RecyclerView
     private var tasksAdapter: TasksAdapter = TasksAdapter(emptyList())
-    private var notesAdapter: NotesAdapter = NotesAdapter(emptyList(),tasksAdapter,context)
+    private var notesAdapter: NotesAdapter? = null
     private var callBacks: CallBacks? = null
     private lateinit var fabAdd: FloatingActionButton
 
@@ -81,7 +80,7 @@ class NotesListFragment : Fragment(), NotesAdapter.OnClick {
 
     private fun updateUI(notes: List<NotesModel>) {
         notesAdapter =
-            NotesAdapter(notes,tasksAdapter,context)
+            NotesAdapter(notes, tasksAdapter, context,callBacks)
         rvNotes.adapter = notesAdapter
 
     }
@@ -104,6 +103,7 @@ class NotesListFragment : Fragment(), NotesAdapter.OnClick {
         fun newInstance(): NotesListFragment {
             return NotesListFragment()
         }
+
     }
 
     interface CallBacks {

@@ -29,8 +29,8 @@ class NotesRepository private constructor(context: Context) {
 
     private val notesDao = notesDataBase.notesDao()
 
-    fun getNotes(): LiveData<List<NotesModel>> = notesDao.getHomeWorkNotesList()
-    fun getNoteByID(id: UUID): LiveData<NotesModel?> = notesDao.getHomewWorkNote(id)
+    fun getNotes(): LiveData<List<NotesModel>> = notesDao.getNotesList()
+    fun getNoteByID(id: UUID): LiveData<NotesModel?> = notesDao.getNote(id)
 
     fun addNote(note: NotesModel) {
         executor.execute {
@@ -44,9 +44,15 @@ class NotesRepository private constructor(context: Context) {
         }
     }
 
+    fun deleteNoteModel(noteModel: NotesModel) {
+        executor.execute {
+            notesDao.deleteNote(noteModel)
+        }
+    }
+
     companion object {
 
-        var INSTANCE: NotesRepository? = null
+        private var INSTANCE: NotesRepository? = null
 
         fun initialize(context: Context) {
             if (INSTANCE == null) {
