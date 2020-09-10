@@ -17,7 +17,7 @@ class AddTasksDialog : DialogFragment() {
 
     private lateinit var edtTask: EditText
     private lateinit var btnSave: Button
-    private var listener: ListenerTask? = null
+
 
 
     override fun onCreateView(

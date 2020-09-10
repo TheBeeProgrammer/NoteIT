@@ -14,12 +14,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.homeworknotes.R
 import com.example.homeworknotes.model.NotesModel
+import com.example.homeworknotes.utils.setFormatDate
 import com.example.homeworknotes.view.dialogs.DatePickerFragment
 import com.example.homeworknotes.viewmodel.NotesViewModel
 import java.util.*
 
-private const val ARG_HOMEWORK_ID = "homework_id"
-private const val TAG = "HomeWorkNotesFragment"
+private const val ARG_HOMEWORK_ID = "note_id"
+private const val TAG = "NotesFragment"
 private const val DIALOG_DATE = "DialogDate"
 private const val REQUEST_DATE = 0
 
@@ -61,7 +62,7 @@ class NotesFragment : Fragment(), DatePickerFragment.Callbacks {
         watcherEditText()
         initUI()
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         notesViewModel.noteLiveData.observe(
@@ -84,12 +85,12 @@ class NotesFragment : Fragment(), DatePickerFragment.Callbacks {
     }
 
     private fun initUI() {
-      /*edtName.setText("")
-        btnDate.text = note.date.toString()
+        edtName.setText(note.name)
+        btnDate.setFormatDate(note.date)
         checkBoxComplete.apply {
             isChecked = note.isComplete
             jumpDrawablesToCurrentState()
-        }*/
+        }
 
     }
 

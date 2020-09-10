@@ -6,4 +6,7 @@
     <string name="homework_made">HomeWork Made</string>
     <string name="agrega_una_nota">Agrega una nota</string>
     <string name="search_note">Buscar Nota</string>
+    <string name="delete_question">¿Qué desea hacer?</string>
+    <string name="borrar">Borrar</string>
+    <string name="editar">Editar</string>
 </resources>
