@@ -2,6 +2,7 @@ package com.example.homeworknotes.view.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,22 +17,18 @@ import com.example.homeworknotes.viewmodel.NotesListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
+private const val TAG = "NoteListFragment"
 
-class NotesListFragment : Fragment(), NotesAdapter.OnClickAdapter {
+class NotesListFragment : Fragment(), NotesAdapter.CallBackAdapter {
 
     private lateinit var rvNotes: RecyclerView
     private var tasksAdapter: TasksAdapter = TasksAdapter(emptyList())
-    private var notesAdapter: NotesAdapter? = null
     private var callBacks: CallBacks? = null
     private lateinit var fabAdd: FloatingActionButton
+    private var notesAdapter: NotesAdapter? = null
 
     private val notesListViewModel: NotesListViewModel by lazy {
         ViewModelProviders.of(this).get(NotesListViewModel::class.java)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        notesAdapter?.setListener(this)
     }
 
     override fun onCreateView(
@@ -42,7 +39,6 @@ class NotesListFragment : Fragment(), NotesAdapter.OnClickAdapter {
         val view = inflater.inflate(R.layout.fragment_notes, container, false)
         rvNotes = view.findViewById(R.id.rv_listNotes)
         fabAdd = view.findViewById(R.id.fab_add_notes)
-        initUi()
         return view
     }
 
@@ -73,23 +69,20 @@ class NotesListFragment : Fragment(), NotesAdapter.OnClickAdapter {
         renderUI()
     }
 
-    private fun initUi() {
+
+    private fun initUI(notes: List<NotesModel>) {
+        notesAdapter =
+            NotesAdapter(notes, tasksAdapter, context, callBacks)
         rvNotes.layoutManager = LinearLayoutManager(context)
         rvNotes.adapter = notesAdapter
-    }
-
-    private fun updateUI(notes: List<NotesModel>) {
-        notesAdapter =
-            NotesAdapter(notes, tasksAdapter, context,callBacks)
-        rvNotes.adapter = notesAdapter
-
+        notesAdapter?.setView(this)
     }
 
     private fun renderUI() {
         notesListViewModel.notesLiveData.observe(
             viewLifecycleOwner,
             Observer { notes ->
-                updateUI(notes)
+                initUI(notes)
             })
     }
 
@@ -107,13 +100,12 @@ class NotesListFragment : Fragment(), NotesAdapter.OnClickAdapter {
     }
 
     interface CallBacks {
-        fun onHomeWorkSelected(id: UUID)
+        fun onNoteSelected(id: UUID)
         fun navigateToAddFragment()
     }
 
-    override fun onItemClick(id: UUID) {
-        callBacks?.onHomeWorkSelected(id)
+    override fun onNoteSelected(id: UUID) {
+        Log.d(TAG, id.toString())
     }
-
 
 }

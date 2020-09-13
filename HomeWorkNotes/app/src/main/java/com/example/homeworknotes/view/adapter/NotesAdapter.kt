@@ -23,12 +23,12 @@ class NotesAdapter(
     private var context: Context?,
     private var callBack: NotesListFragment.CallBacks?
 ) :
-    RecyclerView.Adapter<NotesAdapter.NotesHolder>() {
+    RecyclerView.Adapter<NotesAdapter.Companion.NotesHolder>() {
 
-    private var listener: OnClickAdapter? = null
+    private var callBackAdapter: CallBackAdapter? = null
 
-    fun setListener(fragment: Fragment) {
-        listener = fragment as OnClickAdapter
+    fun setView(fragment: NotesListFragment) {
+        callBackAdapter = fragment
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesHolder {
@@ -40,40 +40,55 @@ class NotesAdapter(
     override fun onBindViewHolder(holder: NotesHolder, position: Int) {
         val notes = lisNoteModels[position]
         tasksAdapter = TasksAdapter(notes.tasks)
-        holder.bind(notes)
+        holder.bind(notes, tasksAdapter, context)
+        holder.setCallBack(callBack, callBackAdapter)
     }
 
     override fun getItemCount() = lisNoteModels.size
 
+    companion object {
+        class NotesHolder(view: View) :
+            RecyclerView.ViewHolder(view),
+            View.OnClickListener {
 
-    inner class NotesHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        private lateinit var notesModel: NotesModel
-        private var titleTextView: TextView = view.findViewById(R.id.tv_title)
-        private var dateTextView: TextView = view.findViewById(R.id.tv_date)
-        private val rvTasks: RecyclerView = view.findViewById(R.id.rv_listTasks)
+            private lateinit var notesModel: NotesModel
+            private var callBack: NotesListFragment.CallBacks? = null
+            private var callBackAdapter: NotesAdapter.CallBackAdapter? = null
 
-        fun bind(notesModel: NotesModel) {
-            this.notesModel = notesModel
+            private var titleTextView: TextView = view.findViewById(R.id.tv_title)
+            private var dateTextView: TextView = view.findViewById(R.id.tv_date)
+            private val rvTasks: RecyclerView = view.findViewById(R.id.rv_listTasks)
 
-            dateTextView.setFormatDate(notesModel.date)
-            titleTextView.text = notesModel.name
-            rvTasks.layoutManager = LinearLayoutManager(context)
-            rvTasks.adapter = tasksAdapter
+            fun bind(notesModel: NotesModel, tasksAdapter: TasksAdapter?, context: Context?) {
+                this.notesModel = notesModel
+
+                dateTextView.setFormatDate(notesModel.date)
+                titleTextView.text = notesModel.name
+                rvTasks.layoutManager = LinearLayoutManager(context)
+                rvTasks.adapter = tasksAdapter
+            }
+
+            fun setCallBack(
+                callBack: NotesListFragment.CallBacks?,
+                callBackAdapter: CallBackAdapter?
+            ) {
+                this.callBack = callBack
+                this.callBackAdapter = callBackAdapter
+            }
+
+            init {
+                itemView.setOnClickListener(this)
+            }
+
+            override fun onClick(v: View?) {
+                callBackAdapter?.onNoteSelected(notesModel.id)
+                callBack?.onNoteSelected(notesModel.id)
+            }
         }
-
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            callBack?.onHomeWorkSelected(notesModel.id)
-        }
-
     }
 
-    interface OnClickAdapter {
-        fun onItemClick(id: UUID)
+    interface CallBackAdapter {
+        fun onNoteSelected(id: UUID);
     }
-
 
 }
